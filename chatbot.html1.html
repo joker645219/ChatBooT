@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <h1 style="height: max-content; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; color: blanchedalmond; background-color: blueviolet;">HEY THERE</h1>
+    <p style="font-family: 'Courier New', Courier, monospace;"">Haneef Uddin ji mai bus hello ka jawab dunga also health,weather,aur baqi yaad nai :p </p>
+    <title>Advanced ChatbooT</title>
+    <style>
+        #chatbox { height: 300px; border: 1px solid #ccc; padding: 10px; overflow-y: scroll; }
+        .user { color: rgb(51, 51, 64); }
+        .bot { color: green; }
+    </style>
+</head>
+<body>
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        let isPlayingGame = false;
+        let wordList = ["apple", "banana", "carrot", "dog", "elephant"];
+        let currentWordIndex = 0;
+
+        function addMessage(sender, text) {
+            const chatbox = document.getElementById('chatbox');
+            chatbox.innerHTML += `<div class="${sender}"><b>${sender}:</b> ${text}</div>`;
+            chatbox.scrollTop = chatbox.scrollHeight; // Auto-scroll
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim().toLowerCase();
+            
+            if (message) {
+                addMessage('user', message);
+                
+                if (isPlayingGame) {
+                    if (message === wordList[currentWordIndex]) {
+                        addMessage('bot', 'Great job! Your turn.');
+                        currentWordIndex = (currentWordIndex + 1) % wordList.length;
+                    } else {
+                        addMessage('bot', 'Oops! That wasn’t the word. Try again!');
+                    }
+                } else {
+                    if (message.includes("hello")) {
+                        addMessage('bot', 'Hi there! How can I help?');
+                    } else if (message.includes("bye")) {
+                        addMessage('bot', 'Goodbye!');
+                    } else if (message.includes("health")) {
+                        addMessage('bot', 'For health-related questions, it’s best to consult a healthcare professional.');
+                    } else if (message.includes("weather")) {
+                        addMessage('bot', 'I currently don’t have access to weather data, but you can check a weather website or app for the latest updates!');
+                    } else if (message.includes("time")) {
+                        const now = new Date();
+                        addMessage('bot', `The current time is ${now.toLocaleTimeString()}.`);
+                    } else if (message.includes("play game")) {
+                        isPlayingGame = true;
+                        addMessage('bot', 'Let’s play a word association game! I’ll start with a word, and you continue with the next related word.');
+                        addMessage('bot', `First word: ${wordList[currentWordIndex]}`);
+                    } else {
+                        addMessage('bot', 'Abi toh nahi but inshallah ek din zarur jawab dunga');
+                    }
+                }
+                userInput.value = ''; // Clear input
+            }
+        }
+    </script>
+</body>
+</html>
